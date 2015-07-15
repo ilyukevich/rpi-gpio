@@ -18,6 +18,11 @@ body{
 	 max-width:40px;
 }
 
+.pi_controlls{
+	font-weight: bold;
+	font-size: 130%;
+}
+
 a{
 	color: black;
 }

@@ -8,27 +8,6 @@
     src:  url('../fonts/cheap.ttf');
 }
 
-@font-face {
-    font-family: desda !important; 
-    src: url('../fonts/desdac.ttf'); 
-}
-
-@font-face {
-    font-family: quake !important; 
-    src: url('../fonts/quake.ttf');
-}
-
-@font-face {
-    font-family:  goodvibespro !important; 
-    src: url('../fonts/goodvibespro.ttf'); 
-}
-
-@font-face {
-    font-family:  unreal !important; 
-    src: url('../fonts/unreal.ttf'); 
-}
-
-
 body{
 	background:#EEEEEE;
 	min-width: 300px;
@@ -37,6 +16,10 @@ body{
 #logo_img{
 	 max-height:40px;
 	 max-width:40px;
+}
+
+.pi_controlls{
+	font-weight: bold;
 }
 
 a{
