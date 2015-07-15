@@ -1,0 +1,39 @@
+@font-face {
+    font-family: gothic !important; 
+     src:  url('../fonts/gothic.ttf'); 
+}
+
+@font-face {
+    font-family: cheap !important; 
+    src:  url('../fonts/cheap.ttf');
+}
+
+body{
+	background:#EEEEEE;
+	min-width: 300px;
+}
+
+#logo_img{
+	 max-height:40px;
+	 max-width:40px;
+}
+
+a{
+	color: black;
+}
+
+label{
+	font-weight: bold;
+	font-family: gothic;
+	font-size: 180%;
+}
+
+.tags{
+	font-family: CheapPizza, cheap;
+	padding-left:25px;
+}
+
+
+
+
+

@@ -1,0 +1,12 @@
+<html>
+   <body>
+	<form method="post" >
+	   {% csrf_token %}
+	   <br>1<INPUT NAME="par1">
+	   <br>2<INPUT NAME="par2">
+	   <br>3<INPUT NAME="par3">
+	   <br><INPUT TYPE=SUBMIT value="Request" onclick="location.href='/params'">
+	   <br>{{ params }}
+	</form>
+   </body>
+</html>

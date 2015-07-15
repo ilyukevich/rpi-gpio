@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="question row-fluid">
+	<div class="span2">
+		<img class="question_img img-rounded" src="/uploads/{{question.author.profile.image}}">
+		<div>
+			<p align="middle">
+			  <span>{{question.author}}</span>
+			     <div align="middle" class="vote_bar"> 
+				<button class="btn btn-small btn-inverse " type="button"><i class="icon-minus icon-white"></i></button>
+				<nobr>{{question.rating}}</nobr>
+				<button class="btn btn-small btn-inverse " type="button"><i class="icon-plus icon-white"></i></button> 					
+			     </div>			
+			</p>
+		</div>
+	</div>
+	<div class="span9">
+		<h5 class="question_title"><a href="/question?q={{question.id}}">{{question.title}}</a></h5>
+			<p class="q_text ordinary_text">{{question.text}}</p>
+			<br align=bottom>Tags: 
+			<span>
+			   {% for tag in tags %}
+				<a href="/?a=tag&tag={{tag}}">{{tag}}  </a>
+			   {% endfor %}
+			</span><span class="qdate" >{{question.created}}</span>
+	</div>
+</div>	
+{% for answer in answers %}
+<div class="answer row-fluid">
+	<div class="span2" align="middle">
+		<img class="answer_img img-rounded" src="/uploads/{{answer.author.profile.image}}">
+		<div align="middle">
+			<span>{{answer.author}}</span>
+			<div class="vote_bar">			
+				<button class="btn btn-small btn-inverse" type="button"><i class="icon-minus icon-white"></i></button>
+				<nobr>{{answer.rating}}</nobr>
+				<button class="btn btn-small btn-inverse" type="button"><i class="icon-plus icon-white"></i></button> 						
+			</div>
+		</div>
+	</div>
+	<div class="span9">
+			<p class="answer_text ordinary_text">{{answer.text}}</p>
+			<span class="qdate">{{answer.created}}</span>
+			{% if question.author == user %}
+			<label class="checkbox">
+   				 <input type="checkbox">
+ 			</label>
+			{% else %}
+				{% if answer.correct %}
+				   <i class="icon-ok icon-white btn-success"></i>	
+				{% endif %}				
+			{% endif %}
+	</div>
+</div>
+{% endfor %}
+{% if user.is_authenticated %}
+<div>
+    <form method="post" action="/question?q={{question.id}}">
+    {% csrf_token %}
+	   {% for f in form.visible_fields %}
+ 	    <div class="control-group {% if f.errors %}error{% endif %}">
+   	         <div class="controls">
+		    {{f}}
+   	         </div>
+ 	    </div>	
+   {% endfor %}
+	<div class="control-group">
+    	    <div class="controls">
+    	        <button type="submit" class="btn btn-inverse" id="answer_button" value="Answer" style="float:right;">Ответить</button>
+	    </div>
+  	</div>
+    </form>
+</div>
+{% endif %}
+<div class="pagination" id="pager">
+	<ul  align="left">
+			{% if answers.has_previous %}
+				<li><a href="?q={{q}}&page={{ answers.previous_page_number }}">-</a></li>
+			{% endif %}
+				<li class="disabled"><a>{{ answers.number }}</a></li>
+			{% if answers.has_next %}
+		            <li><a href="?q={{q}}&page={{ answers.next_page_number }}">+</a><li>
+		        {% endif %}
+ 	</ul>
+</div>
+{% endblock %}
