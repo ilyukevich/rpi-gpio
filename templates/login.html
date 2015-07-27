@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{%  block main %}
+<h1 class="custom_title" id="header">Войти</h1>
+<form class="form-horizontal" method="post" action= "/login?next={{request.GET.next}}"  >
+{% csrf_token %}
+  {% if error %}
+    <div class="alert alert-danger" role="alert">Пользователь не существует!</div>
+  {% endif %}<!-- -->
+  <div class="control-group" >
+     <div class="">
+        <label class="controlll label_pi" for="username">Пользователь</label>
+        <input type="text" id="username" name="username" placeholder="Пользователь" value="{% if username %}{{ username }}{% endif %}">
+        <label class="controlll label_pi" for="password"">Пароль</label>   
+        <input type="password" name="password" id="password" placeholder="Пароль">
+     </div>
+     <button type="submit" class="btn btn-success">Войти</button>
+  </div>
+</form>
+{% endblock %}

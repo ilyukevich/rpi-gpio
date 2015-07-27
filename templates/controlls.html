@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block main %}
+  {% if user.is_authenticated %}
+    <div class="control-group" >
+       <div class="controls ">
+	 	 <label class="control-label controlll label_pi" for="password" style="margin-top:9px">Время работы</label>
+	  	 <span class="label label-info">{{timeup}}</span>
+	  	 {% if user.controlluser.privig <= 3 %}
+	 	 <label class="control-label controlll label_pi" for="password" style="margin-top:7px" >Температура CPU</label>
+	  	 <span class="label {% if temper <= 45 %}label-success
+			    {% elif temper > 45 and temper <= 60 %}label-warning
+			    {% elif temper > 60 %}label-important
+			    {% endif %}">{{temper|floatformat:+2}} °C</span>
+	  	 <label class="control-label controlll label_pi" for="cpu_usage" style="margin-top:9px">Использование CPU</label>
+	 	 <span class="label label-inverse">{{load}} </span>
+	 	 <label class="control-label controlll label_pi" for="temperature" style="margin-top:9px">Температура</label>
+	 	 <span class="label label-info">{{temperature}} °C</span>
+	 	 <label class="control-label controlll label_pi" for="temperature" style="margin-top:9px">Влажность</label>
+	  	 <span class="label label-info">{{humidity}} %</span>
+	  	{% endif %}
+	    {% if user.controlluser.privig <= 3 %}
+	      {% for k, v in states.items %}
+	      <label class="control-label controlll text" for="ralays" style="margin-top:9px">Реле {{k}}</label>
+	      <div class="controls" style="margin-left:115px; margin-top:-33px;">
+	       <div class="onoffswitch">
+    	       <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox js_switch" id="{{k}}" {% if not v  %}checked{% endif %} 
+				{% if user.controlluser.privig >= 3 %}disabled{% endif %} >
+   	       <label class="onoffswitch-label" for="{{k}}">
+		  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+	       </label>
+    	       </div>
+	      </div>
+   	   {% endfor %}
+	  {% endif %}
+       </div>
+    </div>
+    {% if user.controlluser.privig < 3 %}
+	<form class="form-horizontal" method="post" action= "/" accept-charset="UTF-8" >
+	{% csrf_token %}
+	<div class="control-group" >
+	    <div>
+	        <label class="controlll text" for="tm1638">TM1638</label>
+	        <input class="input-large" type="text" id="username" name="tm1638" placeholder="Текст">
+	    </div>
+            <div>
+       		<button type="submit" id="tm1638txt" class="btn btn-success">Отправить</button>
+            </div>
+	</div>
+	<form>
+ {% endif %}
+ {% endif %}
+{% endblock %}

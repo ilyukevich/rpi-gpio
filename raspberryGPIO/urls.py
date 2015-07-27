@@ -8,6 +8,10 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 
     #url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'rasGPIO.views.gpio', name='gpio')
+    url(r'^$', 'rasGPIO.views.controlls', name='controlls'),
+    url(r'^login$', 'rasGPIO.views.login', name='login'),
+    url(r'^switch$', 'rasGPIO.views.switch', name='switch'),
+    url(r'^reboot$', 'rasGPIO.views.reboot', name='reboot'),
+    url(r'^loguot$', 'rasGPIO.views.logout_v', name='logout_v'),
 
 ]

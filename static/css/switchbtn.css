@@ -20,12 +20,12 @@
     -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
 .onoffswitch-inner:before {
-    content: "ON";
+    content: "ВКЛ";
     padding-left: 10px;
     background-color: #2BD93A; color: #FFFFFF;
 }
 .onoffswitch-inner:after {
-    content: "OFF";
+    content: "ВЫКЛ";
     padding-right: 10px;
     background-color: #EEEEEE; color: #999999;
     text-align: right;
