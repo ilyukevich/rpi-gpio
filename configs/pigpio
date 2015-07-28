@@ -1,6 +1,6 @@
 CONFIG = {
     'mode': 'wsgi',
-    'working_dir': '/home/vladislav/raspberry-gpio',
+    'working_dir': '/home/pi/raspberry-gpio',
     'user': 'www-data',  
     'group': 'www-data',  
     #'python': '/usr/bin/python',

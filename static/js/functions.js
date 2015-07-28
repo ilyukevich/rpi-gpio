@@ -52,13 +52,18 @@ $(document).ready(function() {
   });
   $('#reboot').click(function() {
      this.disabled=true;
-     $.post('/reboot', {
-	action:'rebot',
-     }, function(data){
-	    alert(data.msg);
-	    if (data.status == 0)
-		$('#reboot').removeAttr("disabled");
+     if (confirm('Вы действительно хотите перезагрузить Raspberry PI?')) {
+         $.post('/reboot', {
+	 action:'rebot',
+    			 }, function(data){
+	    			alert(data.msg);
+				if (data.status == 0)
+					$('#reboot').removeAttr("disabled");
 	});
+     } else {
+   	this.disabled=false;
+     }
+
   });
 });
 

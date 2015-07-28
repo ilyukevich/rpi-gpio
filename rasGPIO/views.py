@@ -11,6 +11,9 @@ from forms import *
 from models import *
 
 import RPi.GPIO as gpio
+import tm1638
+
+RELAY=[5, 6, 13, 19, 26, 16, 20, 21]
 
 display=0
 
@@ -21,7 +24,7 @@ def init_gpio():
    global display
    display = tm1638.TM1638(DIO, CLK, STB)
    pio=display.enable(0)
-   display.sw_callback=sw
+   #display.sw_callback=sw
    for r in RELAY:
      pio.setup(r, gpio.OUT)
      pio.output(r, 1)
@@ -61,7 +64,7 @@ def controlls(request):
     form = TM1638Form()
     if request.POST:
 	form = TM1638Form(request.POST)
-	if form.is_valid()
+	if form.is_valid():
 	   if request.user.controlluser.privig < 3:
 	      display.settext(form.cleaned_data['tm1638'], 0.2)
     states, i={}, 1
@@ -128,7 +131,7 @@ def logout_v(request, page='/'):
 def switch(request):
     response={}
     if request.POST and 'is_activate' in request.POST and 'id' in request.POST:
-	if user.user.controlluser.privig < 3:
+	if request.user.controlluser.privig < 3:
 	   activate=int(request.POST.get('is_activate', 0))
 	   num=int(request.POST.get('id', 1))
 	   pio.output(RELAY[num-1], not bool(activate))
