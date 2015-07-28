@@ -40,8 +40,10 @@
 	{% csrf_token %}
 	<div class="control-group" >
 	    <div>
-	        <label class="controlll text" for="tm1638">TM1638</label>
-	        <input class="input-large" type="text" id="username" name="tm1638" placeholder="Текст">
+		{% for f in form.visible_fields %}
+	           <label class="controlll text" for="{{f.name}}">{{f.label}}</label>
+	           {{f}}
+		{% endfor %}
 	    </div>
             <div>
        		<button type="submit" id="tm1638txt" class="btn btn-success">Отправить</button>

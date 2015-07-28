@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#тест верстки логика во views1!!!
+
 from django.shortcuts import render
 import time, os
 from uptime import uptime
@@ -9,6 +9,29 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from forms import *
 from models import *
+
+import RPi.GPIO as gpio
+
+display=0
+
+def init_gpio():
+   DIO = 17
+   CLK = 27
+   STB = 22
+   global display
+   display = tm1638.TM1638(DIO, CLK, STB)
+   pio=display.enable(0)
+   display.sw_callback=sw
+   for r in RELAY:
+     pio.setup(r, gpio.OUT)
+     pio.output(r, 1)
+   return pio
+
+pio=init_gpio()
+
+def dth11():
+    data = os.popen('./dht11').readline().replace('\n','').split(',')
+    return data
 
 def cpu_temp():
     res = os.popen('cat /sys/class/thermal/thermal_zone0/temp').readline()
@@ -35,10 +58,31 @@ def timeup():
 LAST_TMPR, LAST_HMDT = 0, 0
 
 def controlls(request):
+    form = TM1638Form()
+    if request.POST:
+	form = TM1638Form(request.POST)
+	if form.is_valid()
+	   if request.user.controlluser.privig < 3:
+	      display.settext(form.cleaned_data['tm1638'], 0.2)
+    states, i={}, 1
+    dht=dth11()
+    global LAST_TMPR, LAST_HMDT
+    if len(dht)==2:
+	tmpr, LAST_TMPR=dht[1], dht[1]
+        hmdt, LAST_HMDT=dht[0], dht[0]
+    else:
+	tmpr, hmdt=LAST_TMPR, LAST_HMDT
+    for r in RELAY:
+	s=pio.input(r)
+	states[i]=s
+	i+=1  
     return render(request, "controlls.html", {  'temper':cpu_temp(),
                                         	'load':cpu_load,
                                         	'timeup': timeup(),
-						}) 
+						'states':states,
+                                        	'temperature':tmpr,
+						'humidity':hmdt,
+						'form':form}) 
 	
 def login(request):
     if request.user.is_authenticated():
@@ -65,7 +109,8 @@ def reboot(request):
 	#do ajax reboot
 	if request.user.controlluser.privig <= 1:
 	   status=1
-	   msg=u'Внимание!\nRaspberry PI сейчас перезагрузится!'
+	   msg=u'Внимание!\nRaspberry PI сейчас перезагрузится!\n'
+	   msg.join(os.popen('reboot').readline())
 	else:
 	   msg=u'Недостаточно прав! Обратитесь к админимтратору.'
 	   status=0

@@ -17,7 +17,7 @@ display.enable(0)
 
 #display.send_char(0, 0b11110110)
 #display.send_char(0, '9')
-display.set_text(u'привет habr', 0.7)
+display.set_text(u'привет_habr', 0.5)
 for i in range(5):
   for i in range(8):
     display.set_led(i, display.RED) 
