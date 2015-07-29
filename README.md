@@ -18,3 +18,5 @@ Raspberry PI GPIO web project
 &emsp; <code>>>>cu.save()</code></br>
 <b>3. Run django server on port 8000 with sudo</b></br>
  &emsp; <code>sudo python manage.py runserver 8000</code></br>
+<b>4. Сopy file configs/raspi-gpio.conf to <code>/etc/nginx/sited-enabled</code> and restart nginx</b></br>
+ &emsp; <code>sudo service nginx restart</code></br>
