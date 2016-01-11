@@ -7,7 +7,7 @@ Raspberry PI GPIO web project
 <code>git clone git://git.drogon.net/wiringPi</code></br>
 <code>cd wiringPi</code></br>
 <code>./build</code></br>
-<code>gcc -o dht11 dht11.c -L/usr/local/lib -lwiringPi -lpthread</code></br>
+
 <b>2. Set up database and create user with 0 privileges.</b></br>
 &emsp;2.1 Make migrations in the application:</br>
  &emsp; <code>python manage.py makemigrations</code></br>
