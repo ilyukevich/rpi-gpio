@@ -2,6 +2,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from rasGPIO.views import *
 
+
 urlpatterns = [
     # Examples:
     # url(r'^$', 'raspberryGPIO.views.home', name='home'),

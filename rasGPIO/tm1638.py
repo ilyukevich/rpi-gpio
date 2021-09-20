@@ -1,20 +1,19 @@
-# -*- coding: utf-8 -*-
-#!/usr/bin/env python
-# vim: set fileencoding=utf-8 expandtab shiftwidth=4 tabstop=4 softtabstop=4:
-
 import RPi.GPIO as GPIO
 from time import sleep
 import threading
 import os
 #from multiprocessing import Process
 
+
 class TM1638(object):
-    GREEN=2
-    RED=1
-    NONE=0
-    text_delay=0.3
-    pio=0
-    sw_callback=0
+    """info"""
+
+    GREEN = 2
+    RED = 1
+    NONE = 0
+    text_delay = 0.3
+    pio = 0
+    sw_callback = 0
     FONT = {
         '0': 0b111111,
         '1': 0b110,
@@ -90,8 +89,9 @@ class TM1638(object):
     def __del__(self):
         GPIO.cleanup()
     #returns gpio object
+
     def enable(self, intensity=7):
-        self.gpio=GPIO
+        self.gpio = GPIO
         self.gpio.setmode(GPIO.BCM)
         self.gpio.setwarnings(0)
         self.gpio.setup(self.dio, GPIO.OUT)
@@ -124,11 +124,12 @@ class TM1638(object):
             data >>= 1
             GPIO.output(self.clk, 1)
     #color 1=red 2=green 0=off
+
     def set_led(self, n, color=RED):
         self.send_data((n << 1) + 1, color)
 
     def send_char(self, pos, data, dot=False):
-        self.send_data(pos << 1, self.FONT.get(data,0) | (0x80 if dot else 0))
+        self.send_data(pos << 1, self.FONT.get(data, 0) | (0x80 if dot else 0))
 
     def set_digit(self, pos, digit, dot=False):
         for i in range(0, 6):
@@ -140,6 +141,7 @@ class TM1638(object):
     def clean(self):
         for i in range(8):
             self.send_char(i, ' ')
+
     def cleanall(self):
         self.clean()
         for i in range(8):
@@ -147,26 +149,27 @@ class TM1638(object):
 
     def set_text(self, text, delay=text_delay):
         self.clean()
-        text=text.lower()
-        length=len(text)
-        if length > 8: #running string
-            prev, curr= 0, 8
+        text = text.lower()
+        length = len(text)
+        # running string
+        if length > 8:
+            prev, curr = 0, 8
             while curr <= len(text):
                 self.set_text(text[prev:curr], delay)
                 sleep(delay)
-                prev+= 1
-                curr+= 1
+                prev += 1
+                curr += 1
         else:
-            dot=False
-            i=0
+            dot = False
+            i = 0
             while i < len(text):
                 if i+1 < len(text) and text[i+1] == '.':
-                    text=text.replace('.', '', 1)
-                    dot=True
+                    text = text.replace('.', '', 1)
+                    dot = True
                 else:
-                    dot=False
+                    dot = False
                 self.send_char(i, text[i], dot)
-                i+=1                    
+                i += 1
 
     def receive(self):
         temp = 0
@@ -192,7 +195,7 @@ class TM1638(object):
     def check_btns(self):
         while 1:
           sleep(0.06)
-          mask=self.get_buttons()
+          mask = self.get_buttons()
           if mask > 0:
             self.set_led(2, self.RED)
             self.sw_callback(mask)
@@ -202,6 +205,3 @@ class TM1638(object):
     def listen(self):
         t = threading.Thread(target=self.check_btns)
         t.start()
-
-
-
